@@ -142,7 +142,7 @@ docker-compose down -v
 ```
 
 ## Contributors
-- [Your Name]
+- [Farzana Pasha J]
 
 ## License
 This project is licensed under the MIT License.
