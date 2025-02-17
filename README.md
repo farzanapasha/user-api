@@ -10,7 +10,7 @@ This project demonstrates a containerized web application using Docker and Docke
  ├── 📜 docker-compose.yml # Docker Compose configuration
  ├── 📜 Dockerfile         # Dockerfile for the web application
  ├── 📜 nginx.conf         # Nginx configuration for load balancing
- ├── 📜 .env               # Environment variables file
+ ├── 📜 .env.sample        # Example environment variables file
  ├── 📜 README.md          # Project documentation
 ```
 
