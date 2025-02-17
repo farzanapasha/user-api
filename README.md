@@ -22,11 +22,11 @@ This project demonstrates a containerized web application using Docker and Docke
 
 ### Step 1: Clone the Repository
 ```sh
-git clone <repo-url>
-cd project-root
+git clone git@github.com:farzanapasha/user-api.git
+cd user-api
 ```
 
-### Step 2: Create an `.env` File
+### Step 2: Create an `.env` file. Or create one from .env.sample
 Create a `.env` file in the project root and configure environment variables:
 ```ini
 MYSQL_ROOT_PASSWORD=your_root_password
@@ -39,7 +39,7 @@ NODE_USER=node
 
 ### Step 3: Build and Start the Containers
 ```sh
-docker-compose up --build -d
+docker-compose -p 'user' up --build -d
 ```
 
 ### Step 4: Verify Running Containers
@@ -48,14 +48,23 @@ docker ps
 ```
 
 ## API Endpoints
-| Method | Endpoint       | Description         |
-|--------|--------------|---------------------|
-| POST   | `/user`      | Create a new user  |
-| GET    | `/user/{id}` | Retrieve user data |
+| Method | Endpoint       | Description                      | Request Body                             | Response |
+|--------|--------------|--------------------------------|---------------------------------|-----------|
+| GET    | `/users`     | Fetch all users              | _None_                          | `{ data: { users: [...] } }` |
+| GET    | `/users/:id` | Fetch a single user by ID    | _None_                          | `{ data: { user: {...} } }` |
+| POST   | `/users`     | Add a new user               | `{ "name": "John", "email": "john@example.com", "password": "secret" }` | `{ data: { id, name, email } }` |
+| PUT    | `/users/:id` | Update a user by ID         | `{ "name": "John", "email": "john@example.com", "password": "newpass" }` | `{ data: { id, name, email } }` |
+| DELETE | `/users/:id` | Delete a user by ID         | _None_                          | `{ "message": "User deleted successfully" }` |
+
+### Notes:
+- `POST /users`: Requires `"name"`, `"email"`, and `"password"`.
+- `PUT /users/:id`: Updates a user; all fields must be provided.
+- `DELETE /users/:id`: Deletes the user with the specified ID.
+
 
 ### Example API Call
 ```sh
-curl -X POST -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe"}' http://localhost/api/user
+curl -X POST -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe"}' http://localhost/user
 ```
 
 ## Docker Compose Configuration
