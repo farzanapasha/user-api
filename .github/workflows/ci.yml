@@ -40,6 +40,5 @@ jobs:
 
     # Step 6: Build Docker image
     - name: Build Docker Image
-      working-directory: ./API
       run: |
         docker build -t $DOCKER_IMAGE:$GITHUB_SHA .
