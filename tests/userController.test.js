@@ -100,5 +100,47 @@ describe("User API Tests", () => {
     expect(res.statusCode).toEqual(404);
     expect(res.body.error).toBe("User not found or no changes made");
   });
+  
+  it('should return user details if user exists', async () => {
+    const mockUser = { id: 1, name: 'Test User', email: 'test@example.com' };
+    
+    // Mock the DB query to simulate the user being found
+    db.query.mockImplementation((query, values, callback) => {
+      if (query.includes('SELECT id, name, email FROM users WHERE id = ?')) {
+        callback(null, [mockUser]);
+      } else {
+        callback(null, []);
+      }
+    });
+
+    const response = await request(app)
+      .get('/api/users/1') // Adjust the route based on your API setup
+      .send();
+
+    expect(response.status).toBe(200);
+    expect(response.body.id).toBe(mockUser.id);
+    expect(response.body.name).toBe(mockUser.name);
+    expect(response.body.email).toBe(mockUser.email);
+  });
+
+  // Test case for getting a user by ID (user does not exist)
+  it('should return error if user is not found', async () => {
+    // Mock the DB query to simulate the user not being found
+    db.query.mockImplementation((query, values, callback) => {
+      if (query.includes('SELECT id, name, email FROM users WHERE id = ?')) {
+        callback(null, []); // No user found
+      } else {
+        callback(null, []);
+      }
+    });
+
+    const response = await request(app)
+      .get('/api/users/999') // A non-existent user ID
+      .send();
+
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe('User not found');
+  });
+
 });
 
