@@ -41,7 +41,7 @@ jobs:
     
     # Step 6: Docker Login
     - name: Docker Login
-      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      command: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
     # Step 7: Build Docker image
     - name: Build Docker Image
