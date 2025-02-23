@@ -36,6 +36,29 @@ describe("User API Tests", () => {
     expect(res.body.error).toBe("User not found");
   });
 
+  it('should return error if user email already exists', async () => {
+    // Mocking a pre-existing user in the database
+    db.query.mockImplementation((query, values, callback) => {
+      if (query.includes('SELECT * FROM users WHERE email = ?')) {
+        // Simulate an existing user
+        callback(null, [{ id: 1, name: 'Test User', email: values[0] }]);
+      } else {
+        callback(null, []); // Simulate no results for other queries
+      }
+    });
+
+    const response = await request(app)
+      .post('/api/users') // Adjust the route based on your API setup
+      .send({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'password123',
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('User already exists');
+  });
+
   // Test case for updating a user
   it("should update a user", async () => {
     // Mock the db.query function for checking if user exists before update
