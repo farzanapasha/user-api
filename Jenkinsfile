@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'ubuntu-latest' }  // Runs on an Ubuntu agent
+    agent any 
     
     environment {
         DOCKER_IMAGE = "farzanapasha/user-api-demo"
