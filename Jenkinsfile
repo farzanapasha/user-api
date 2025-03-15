@@ -1,17 +1,36 @@
 pipeline {
+    agent { label 'ubuntu-latest' }  // Runs on an Ubuntu agent
+    
     environment {
-        PATH = "/opt/homebrew/bin:$PATH"
+        DOCKER_IMAGE = "farzanapasha/user-api-demo"
+        PATH = "/opt/homebrew/bin:$PATH"  // Ensure Docker is accessible
     }
-    agent {
-        docker {
-            image 'node:22.14.0-alpine3.21'
-            args '--network=host' // Example of additional options
-        }
-    }
+
     stages {
-        stage('Build') {
+        stage('Checkout Code') {
             steps {
-                echo 'Building...'
+                checkout scm
+            }
+        }
+
+        stage('Setup Node.js') {
+            steps {
+                sh 'curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -'
+                sh 'sudo apt-get install -y nodejs'
+                sh 'node -v'
+                sh 'npm -v'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'npm test -- --forceExit'
             }
         }
     }
