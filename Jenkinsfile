@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         DOCKER_IMAGE = "farzanapasha/user-api-demo"
-        PATH = "/opt/homebrew/bin:$PATH"  // Ensure Docker is accessible
+        PATH = "/Users/farzanapashajahangeer/.nvm/versions/node/v22.14.0/bin:/opt/homebrew/bin:$PATH"  // Ensure Docker is accessible
     }
 
     stages {
