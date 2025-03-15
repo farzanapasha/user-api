@@ -124,13 +124,6 @@ networks:
     driver: bridge
 ```
 
-## Security Best Practices
-- Uses minimal `alpine` images for the application.
-- Runs containers as non-root users.
-- Uses environment variables for secrets instead of hardcoding.
-- Ensures the database container has authentication enabled.
-- Restricts network access between services to minimize exposure.
-
 ## Stopping the Containers
 ```sh
 docker-compose down
@@ -141,8 +134,6 @@ docker-compose down
 docker-compose down -v
 ```
 
-## Contributors
-- [Farzana Pasha J]
+## Contributed by
+- Farzana Pasha Jahangeer
 
-## License
-This project is licensed under the MIT License.
